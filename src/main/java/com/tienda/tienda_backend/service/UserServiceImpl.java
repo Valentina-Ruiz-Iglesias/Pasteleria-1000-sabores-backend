@@ -2,6 +2,7 @@ package com.tienda.tienda_backend.service;
 
 import com.tienda.tienda_backend.entity.User;
 import com.tienda.tienda_backend.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -33,9 +37,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        // aquí más adelante haremos:
-        // - validar email único
-        // - encriptar password
+        // encriptar contraseña antes de guardar
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
+
+        // valor por defecto de rol si viene null
+        if (user.getRole() == null) {
+            user.setRole("CLIENT");
+        }
+
         return userRepository.save(user);
     }
 
