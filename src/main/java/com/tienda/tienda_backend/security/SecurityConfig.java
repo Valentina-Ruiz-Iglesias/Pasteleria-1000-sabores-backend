@@ -16,10 +16,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // para poder usar Postman sin problemas
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()   // Auth libre 
-                .requestMatchers("/api/v1/**").permitAll() // libre la API
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/api/v1/**").permitAll()
+                .requestMatchers("/orders/**").permitAll() // por ahora dejamos libre orders
                 .anyRequest().authenticated()
             )
             .httpBasic(Customizer.withDefaults());
