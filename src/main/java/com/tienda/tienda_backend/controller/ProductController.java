@@ -1,5 +1,6 @@
 package com.tienda.tienda_backend.controller;
 
+import com.tienda.tienda_backend.dto.ReduceStockRequest;
 import com.tienda.tienda_backend.entity.Product;
 import com.tienda.tienda_backend.service.ProductService;
 import org.springframework.http.ResponseEntity;
