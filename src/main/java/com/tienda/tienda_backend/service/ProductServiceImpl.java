@@ -1,8 +1,8 @@
 package com.tienda.tienda_backend.service;
 
+import com.tienda.tienda_backend.dto.ReduceStockRequest;
 import com.tienda.tienda_backend.entity.Product;
 import com.tienda.tienda_backend.repository.ProductRepository;
-import com.tienda.tienda_backend.dto.ReduceStockRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,18 +28,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
     }
 
     @Override
     public Product updateProduct(Long id, Product product) {
         Product existing = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
         existing.setName(product.getName());
         existing.setDescription(product.getDescription());
@@ -63,5 +59,10 @@ public class ProductServiceImpl implements ProductService {
             product.setStock(newStock);
             productRepository.save(product);
         }
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
     }
 }
