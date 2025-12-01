@@ -37,9 +37,26 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
+        Product updated = productService.updateProduct(id, product);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/reduce-stock")
+    public ResponseEntity<Void> reduceStock(@RequestBody ReduceStockRequest request) {
+        productService.reduceStock(request.getItems());
+        return ResponseEntity.ok().build();
+    }
+
 }
+

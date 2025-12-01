@@ -22,11 +22,14 @@ public class Product {
     @Column
     private String description;
 
+    @Column(nullable = false)
+    private Integer stock = 0;  // NUEVO CAMPO
+
     public Product() {
-        // constructor vacío 
+        // constructor vacío
     }
 
-    // Getters y Setters 
+    // Getters y Setters
 
     public Long getId() {
         return id;
@@ -58,5 +61,14 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    // NUEVO GETTER Y SETTER
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 }
