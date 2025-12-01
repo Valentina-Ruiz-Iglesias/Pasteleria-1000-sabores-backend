@@ -31,12 +31,6 @@ public class User {
     @Column(nullable = false)
     private Boolean hasFelices50 = false;
 
-    @Column(nullable = false, unique = true, length = 9)
-    private String run;
-
-    @Column(nullable = false, length = 100)
-    private String apellidos;
-
 
     public User() {
     }
