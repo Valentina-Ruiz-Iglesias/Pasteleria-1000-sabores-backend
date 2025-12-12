@@ -2,6 +2,7 @@ package com.tienda.tienda_backend.controller;
 
 import com.tienda.tienda_backend.dto.CreateOrderRequest;
 import com.tienda.tienda_backend.dto.CreateOrderItemRequest;
+import com.tienda.tienda_backend.dto.UpdateOrderStatusRequest;
 import com.tienda.tienda_backend.entity.Order;
 import com.tienda.tienda_backend.entity.OrderItem;
 import com.tienda.tienda_backend.entity.Product;
@@ -123,5 +124,18 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<?> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> updateOrderStatus(
+            @PathVariable Long id,
+            @RequestBody UpdateOrderStatusRequest request
+    ) {
+        try {
+            Order updated = orderService.updateOrderStatus(id, request.getStatus());
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
